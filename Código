@@ -1,0 +1,103 @@
+import pandas as pd
+import os
+
+# ==========================================
+# Analisador de Dados Simples (CSV + Python)
+# Focado em análise estatística básica
+# ==========================================
+
+def exibir_cabecalho():
+    """Exibe o título visual do sistema."""
+    print("\n" + "=" * 50)
+    print("      ANALISADOR DE DADOS PROFISSIONAL")
+    print("=" * 50)
+
+def carregar_arquivo():
+    """Solicita o nome do arquivo e tenta carregá-lo usando Pandas."""
+    while True:
+        arquivo = input("\nDigite o nome do arquivo CSV (ex: vendas.csv): ").strip()
+        
+        if not os.path.exists(arquivo):
+            print("Erro: O arquivo '{}' não foi encontrado no diretório.".format(arquivo))
+            continue
+            
+        try:
+            df = pd.read_csv(arquivo)
+            print("Sucesso: Arquivo carregado com {} registros.".format(len(df)))
+            return df
+        except Exception as e:
+            print("Erro ao ler o arquivo: {}".format(e))
+            return None
+
+def selecionar_coluna(df):
+    """Lista as colunas e permite ao usuário escolher uma numérica."""
+    print("\nColunas disponíveis no arquivo:")
+    for i, coluna in enumerate(df.columns):
+        print("[{}] - {}".format(i, coluna))
+    
+    try:
+        indice = int(input("\nDigite o número da coluna que deseja analisar: "))
+        coluna_nome = df.columns[indice]
+        
+        # Validação: Verifica se a coluna é numérica
+        if not pd.api.types.is_numeric_dtype(df[coluna_nome]):
+            print("Erro: A coluna '{}' não é numérica e não pode ser analisada.".format(coluna_nome))
+            return None
+            
+        return coluna_nome
+    except (ValueError, IndexError):
+        print("Erro: Seleção inválida. Escolha um número da lista.")
+        return None
+
+def calcular_estatisticas(df, coluna):
+    """Realiza os cálculos matemáticos na coluna selecionada."""
+    # O Pandas já possui métodos otimizados para isso
+    media = df[coluna].mean()
+    maior = df[coluna].max()
+    menor = df[coluna].min()
+    soma  = df[coluna].sum()
+    
+    return {
+        "media": media,
+        "maior": maior,
+        "menor": menor,
+        "soma": soma
+    }
+
+def exibir_resultados(coluna, stats):
+    """Formata e exibe os resultados na tela."""
+    print("\n" + "-" * 40)
+    print("RESUMO ESTATÍSTICO: {}".format(coluna.upper()))
+    print("-" * 40)
+    print("Média dos valores:     {:.2f}".format(stats["media"]))
+    print("Maior valor original:  {:.2f}".format(stats["maior"]))
+    print("Menor valor original:  {:.2f}".format(stats["menor"]))
+    print("Soma total da coluna:  {:.2f}".format(stats["soma"]))
+    print("-" * 40)
+
+def main():
+    """Fluxo principal do programa."""
+    exibir_cabecalho()
+    
+    # 1. Carregar dados
+    dados = carregar_arquivo()
+    if dados is None:
+        return
+
+    # 2. Loop para análise de colunas
+    while True:
+        coluna_escolhida = selecionar_coluna(dados)
+        
+        if coluna_escolhida:
+            # 3. Processar
+            resultados = calcular_estatisticas(dados, coluna_escolhida)
+            # 4. Exibir
+            exibir_resultados(coluna_escolhida, resultados)
+        
+        continuar = input("\nDeseja analisar outra coluna? (s/n): ").lower()
+        if continuar != 's':
+            print("\nFinalizando analisador. Até a próxima!")
+            break
+
+if __name__ == "__main__":
+    main()
