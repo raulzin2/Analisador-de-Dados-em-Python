@@ -38,4 +38,3 @@ Dataset de teste
 Autor
 Projeto desenvolvido como exercício acadêmico de análise de dados com Python e Pandas.
 
-LINK: file:///C:/Users/Raul%20Teot%C3%B4nio/Downloads/analisador-de-dados/analisador-de-dados/web/index.html
