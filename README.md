@@ -37,3 +37,5 @@ Dataset de teste
 `dados-exemplo/vendas_teste.xlsx` (e sua versão `.csv` equivalente) simula vendas de uma loja de eletrônicos, com colunas numéricas (`Quantidade`, `Preco_Unitario`, `Total`) e colunas de texto (`Produto`, `Categoria`, `Regiao`, `Data_Venda`) — estas últimas servem para testar o tratamento de "coluna não numérica". A planilha `.xlsx` já traz, ao final, um resumo com fórmulas (`MÉDIA`, `MÁXIMO`, `MÍNIMO`, `SOMA`) para conferir se o analisador está calculando certo.
 Autor
 Projeto desenvolvido como exercício acadêmico de análise de dados com Python e Pandas.
+
+LINK: file:///C:/Users/Raul%20Teot%C3%B4nio/Downloads/analisador-de-dados/analisador-de-dados/web/index.html
